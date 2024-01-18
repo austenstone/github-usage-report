@@ -1,6 +1,8 @@
-# TypeScript Node Template
+# Github Usage Report Library
 
-Template for creating a TypeScript Node.js project.
+A simple library to parse a Github usage report.
+
+See [Viewing your GitHub Actions usage](https://docs.github.com/en/billing/managing-billing-for-github-actions/viewing-your-github-actions-usage) for instructions on how to generate a Github usage report.
 
 ## 🔨 Build
 ```
