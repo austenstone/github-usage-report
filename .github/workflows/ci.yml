@@ -30,6 +30,7 @@ jobs:
           path: dist/
 
   publish_npm:
+    if: github.ref_type == 'tag'
     needs: ["build"]
     runs-on: ubuntu-latest
     environment:
@@ -43,8 +44,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: dist
-      - continue-on-error: true
-        env:
+      - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
@@ -53,6 +53,7 @@ jobs:
   publish_github:
     needs: ["build"]
     runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
     environment:
       name: "GitHub Packages"
       url: https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/pkgs/npm/${{ github.event.repository.name }}
@@ -69,8 +70,7 @@ jobs:
           file: package.json
           field: name
           value: "@${{ github.repository_owner }}/${{ github.event.repository.name }}"
-      - continue-on-error: true
-        env:
+      - env:
           OWNER: ${{ github.repository_owner }}
           NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
