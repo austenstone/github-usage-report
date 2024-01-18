@@ -32,6 +32,9 @@ jobs:
   publish_npm:
     needs: ["build"]
     runs-on: ubuntu-latest
+    environment:
+      name: "NPM"
+      url: https://www.npmjs.com/package/${{ github.event.repository.name }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
@@ -50,6 +53,9 @@ jobs:
   publish_github:
     needs: ["build"]
     runs-on: ubuntu-latest
+    environment:
+      name: "GitHub Packages"
+      url: https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/pkgs/npm/${{ github.event.repository.name }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
