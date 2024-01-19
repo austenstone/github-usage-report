@@ -1,5 +1,6 @@
 import { test, expect } from '@jest/globals';
-import { readGithubUsageReport, readGithubUsageReportFile, readGithubUsageReportFileSync } from '../src/index';
+import { readGithubUsageReportFile, readGithubUsageReportFileSync } from '../src/index';
+import { readGithubUsageReport } from '../src/usage-report';
 
 test('readGithubUsageReport works', async () => {
   const usageReport = await readGithubUsageReport(
