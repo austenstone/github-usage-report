@@ -1,7 +1,10 @@
 import { UsageReport, UsageReportLine } from "./types";
 
-const readGithubUsageReport = async (data: string): Promise<UsageReport> => {
+const readGithubUsageReport = async (data: string, cb?: (usageReport: UsageReport, percent: number) => void): Promise<UsageReport> => {
   return new Promise((resolve) => {
+    let percent = 0;
+    let total = 0;
+    let done = 0;
     const usageReport: UsageReport = {
       days: 0,
       startDate: new Date(),
@@ -9,7 +12,9 @@ const readGithubUsageReport = async (data: string): Promise<UsageReport> => {
       lines: [],
     };
 
-    data.split('\n').forEach((line, index) => {
+    const lines = data.split('\n');
+    total = lines.length;
+    lines.forEach((line, index) => {
       if (index == 0) return;
       const csv = line.split(',');
       const data: UsageReportLine = {
@@ -27,8 +32,11 @@ const readGithubUsageReport = async (data: string): Promise<UsageReport> => {
         notes: csv[11],
       };
       if (data.product != null) {
+        if (cb) cb(usageReport, percent);
         usageReport.lines.push(data);
       }
+      done++;
+      percent = Math.round((done / total) * 100);
     });
     usageReport.startDate = usageReport.lines[0].date;
     usageReport.endDate = usageReport.lines[usageReport.lines.length - 1].date;

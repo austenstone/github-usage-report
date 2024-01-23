@@ -5,7 +5,9 @@ import { readGithubUsageReport } from './usage-report';
 
 const readGithubUsageReportFileSync = async (fileName: string): Promise<UsageReport> => {
   const data = readFileSync(fileName, 'utf8');
-  return readGithubUsageReport(data);
+  return readGithubUsageReport(
+    data,
+  );
 };
 
 const readGithubUsageReportFile = async (fileName: string, newLine?: (line?: UsageReportLine) => void): Promise<UsageReport> => {

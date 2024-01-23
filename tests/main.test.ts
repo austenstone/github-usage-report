@@ -6,7 +6,7 @@ test('readGithubUsageReport works', async () => {
   const usageReport = await readGithubUsageReport(
     `date,product,sku,quantity,unit-type,price-per-unit,multiplier,owner,repository-slug,username,actions-workflow,notes
 2023-06-03,Actions,Compute - UBUNTU,1,minute,0.008,1.0,octodemo-orchestration-testing,demo-bootstrap,peter-murray,.github/workflows/maintenance_review_demo_states.yml,
-2023-06-03,Actions,Compute - UBUNTU,1,minute,0.008,1.0,octodemo-orchestration-testing,demo-bootstrap,peter-murray,.github/workflows/maintenance_review_demo_states.yml,`
+2023-06-03,Actions,Compute - UBUNTU,1,minute,0.008,1.0,octodemo-orchestration-testing,demo-bootstrap,peter-murray,.github/workflows/maintenance_review_demo_states.yml,`,
   );
   expect(usageReport.lines[0]).toEqual({
     date: new Date('2023-06-03'),
