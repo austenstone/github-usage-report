@@ -1,6 +1,6 @@
-import { UsageReport, UsageReportLine } from "./types";
+import { UsageReport, UsageReportCallback, UsageReportLine } from "./types";
 
-const readGithubUsageReport = async (data: string, cb?: (usageReport: UsageReport, percent: number) => void): Promise<UsageReport> => {
+const readGithubUsageReport = async (data: string, cb?: UsageReportCallback): Promise<UsageReport> => {
   return new Promise((resolve) => {
     let percent = 0;
     let total = 0;

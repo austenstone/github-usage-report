@@ -20,4 +20,6 @@ interface UsageReportLine {
   notes: string;
 }
 
-export { UsageReport, UsageReportLine };
+type UsageReportCallback = (usageReport: UsageReport, percent: number) => void;
+
+export { UsageReport, UsageReportLine, UsageReportCallback };
