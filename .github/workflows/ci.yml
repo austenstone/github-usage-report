@@ -42,7 +42,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: dist
       - env:
@@ -63,7 +63,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16"
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: dist
       - uses: jossef/action-set-json-field@v2.1
