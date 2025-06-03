@@ -1,48 +1,49 @@
-import { UsageReport, UsageReportCallback, UsageReportLine } from "./types";
+import { UsageReport, UsageReportLine } from "./types";
 
-const readGithubUsageReport = async (data: string, cb?: UsageReportCallback): Promise<UsageReport> => {
+const readGithubUsageReportLine = (line: string): UsageReportLine => {
+  const csv = line.split(',').map(field => field.replace(/^"|"$/g, ''));
+  if (csv.length < 15) {
+    throw new Error(`Invalid line format: "${line}"`);
+  }
+  return {
+    date: new Date(Date.parse(csv[0])),
+    product: csv[1],
+    sku: csv[2],
+    quantity: Number(csv[3]),
+    unitType: csv[4],
+    pricePerUnit: Number(csv[5]),
+    grossAmount: Number(csv[6]),
+    discountAmount: Number(csv[7]),
+    netAmount: Number(csv[8]),
+    username: csv[9],
+    organization: csv[10],
+    repositoryName: csv[11],
+    workflowName: csv[12],
+    workflowPath: csv[13],
+    costCenterName: csv[14],
+  };
+}
+
+const readGithubUsageReport = async (data: string): Promise<UsageReport> => {
   return new Promise((resolve) => {
-    let percent = 0;
-    let total = 0;
-    let done = 0;
-    const usageReport: UsageReport = {
-      days: 0,
-      startDate: new Date(),
-      endDate: new Date(),
-      lines: [],
-    };
+    const usageReportLines: UsageReportLine[] = [];
 
-    const lines = data.split('\n');
-    total = lines.length;
+    const lines = data.split(/\r?\n/);
     lines.forEach((line, index) => {
-      if (index == 0) return;
-      const csv = line.split(',');
-      const data: UsageReportLine = {
-        date: new Date(Date.parse(csv[0])),
-        product: csv[1],
-        sku: csv[2],
-        quantity: Number(csv[3]),
-        unitType: csv[4],
-        pricePerUnit: Number(csv[5]),
-        multiplier: Number(csv[6]),
-        owner: csv[7],
-        repositorySlug: csv[8],
-        username: csv[9],
-        actionsWorkflow: csv[10],
-        notes: csv[11],
-      };
-      if (data.product != null) {
-        if (cb) cb(usageReport, percent);
-        usageReport.lines.push(data);
-      }
-      done++;
-      percent = Math.round((done / total) * 100);
+      if (index == 0 || line.length < 1) return;
+      const data = readGithubUsageReportLine(line);
+      usageReportLines.push(data);
     });
-    usageReport.startDate = usageReport.lines[0].date;
-    usageReport.endDate = usageReport.lines[usageReport.lines.length - 1].date;
-    usageReport.days = (usageReport.endDate.getTime() - usageReport.startDate.getTime()) / (1000 * 60 * 60 * 24);
-    resolve(usageReport);
+
+    const startDate = usageReportLines[0].date;
+    const endDate = usageReportLines[usageReportLines.length - 1].date;
+    resolve({
+      startDate,
+      endDate,
+      days: (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+      lines: usageReportLines,
+    });
   });
 };
 
-export { readGithubUsageReport };
+export { readGithubUsageReport, readGithubUsageReportLine };

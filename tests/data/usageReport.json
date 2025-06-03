@@ -1,0 +1,41 @@
+{
+  "days": 30,
+  "startDate": "2025-05-01T00:00:00.000Z",
+  "endDate": "2025-05-31T00:00:00.000Z",
+  "lines": [
+    {
+      "date": "2025-05-01T00:00:00.000Z",
+      "product": "actions",
+      "sku": "actions_linux",
+      "quantity": 2,
+      "unitType": "minutes",
+      "pricePerUnit": 0.008,
+      "grossAmount": 0.016,
+      "discountAmount": 0.016,
+      "netAmount": 0,
+      "username": "",
+      "organization": "octodemo-framework",
+      "repositoryName": "bookstore-vigilant-acorn",
+      "workflowName": "Dependency Review",
+      "workflowPath": ".github/workflows/dependency-review.yml",
+      "costCenterName": "test_cc_docusign"
+    },
+    {
+      "date": "2025-05-01T00:00:00.000Z",
+      "product": "actions",
+      "sku": "actions_linux",
+      "quantity": 1,
+      "unitType": "minutes",
+      "pricePerUnit": 0.008,
+      "grossAmount": 0.008,
+      "discountAmount": 0.008,
+      "netAmount": 0,
+      "username": "luispujols",
+      "organization": "LP-Octodemo",
+      "repositoryName": "lp-awesome-actions",
+      "workflowName": "Close stale issues",
+      "workflowPath": ".github/workflows/stale.yml",
+      "costCenterName": ""
+    }
+  ]
+}

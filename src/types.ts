@@ -10,14 +10,17 @@ interface UsageReportLine {
   product: string;
   sku: string;
   quantity: number;
-  unitType: 'minute' | 'gb-day' | 'user-month' | 'gb' | string;
+  unitType: string;
   pricePerUnit: number;
-  multiplier: number;
-  owner: string;
-  repositorySlug: string;
+  grossAmount: number;
+  discountAmount: number;
+  netAmount: number;
   username: string;
-  actionsWorkflow: string;
-  notes: string;
+  organization: string;
+  repositoryName: string;
+  workflowName: string;
+  workflowPath: string;
+  costCenterName: string;
 }
 
 type UsageReportCallback = (usageReport: UsageReport, percent: number) => void;
