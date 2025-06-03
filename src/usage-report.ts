@@ -1,4 +1,4 @@
-import { UsageReport, UsageReportLine } from "./types";
+import { UsageReport, UsageReportLine, ModelUsageReport, ModelUsageReportLine } from "./types";
 
 const readGithubUsageReportLine = (line: string): UsageReportLine => {
   const csv = line.split(',').map(field => field.replace(/^"|"$/g, ''));
@@ -46,4 +46,41 @@ const readGithubUsageReport = async (data: string): Promise<UsageReport> => {
   });
 };
 
-export { readGithubUsageReport, readGithubUsageReportLine };
+const readModelUsageReportLine = (line: string): ModelUsageReportLine => {
+  const csv = line.split(',').map(field => field.replace(/^"|"$/g, ''));
+  if (csv.length < 6) {
+    throw new Error(`Invalid line format: "${line}"`);
+  }
+  return {
+    timestamp: new Date(csv[0]),
+    user: csv[1],
+    model: csv[2],
+    requestsUsed: Number(csv[3]),
+    exceedsMonthlyQuota: csv[4].toLowerCase() === 'true',
+    totalMonthlyQuota: csv[5],
+  };
+}
+
+const readModelUsageReport = async (data: string): Promise<ModelUsageReport> => {
+  return new Promise((resolve) => {
+    const usageReportLines: ModelUsageReportLine[] = [];
+
+    const lines = data.split(/\r?\n/);
+    lines.forEach((line, index) => {
+      if (index == 0 || line.length < 1) return;
+      const data = readModelUsageReportLine(line);
+      usageReportLines.push(data);
+    });
+
+    const startDate = usageReportLines[0]?.timestamp || new Date();
+    const endDate = usageReportLines[usageReportLines.length - 1]?.timestamp || startDate;
+    resolve({
+      startDate,
+      endDate,
+      days: (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+      lines: usageReportLines,
+    });
+  });
+};
+
+export { readGithubUsageReport, readGithubUsageReportLine, readModelUsageReport, readModelUsageReportLine };

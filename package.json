@@ -1,9 +1,19 @@
 {
   "name": "github-usage-report",
-  "version": "2.4.0",
+  "version": "3.0.1",
   "description": "Parse github usage report",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./node": {
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
@@ -24,9 +34,7 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^9.28.0",
-    "@types/node": "^22.15.29",
     "eslint": "^9.28.0",
-    "eslint-config-google": "^0.14.0",
     "globals": "^16.2.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3",
