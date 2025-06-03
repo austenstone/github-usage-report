@@ -48,4 +48,4 @@ const readGithubUsageReportFile = async (fileName: string, newLine?: (line?: Usa
   });
 }
 
-export { readGithubUsageReportFile, readGithubUsageReportFileSync };
+export { readGithubUsageReportFile, readGithubUsageReportFileSync, readGithubUsageReport, UsageReport, UsageReportLine };
