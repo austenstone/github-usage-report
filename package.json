@@ -19,7 +19,7 @@
   "readme": "README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/austenstone/github-usage-report.git"
+    "url": "git+https://github.com/austenstone/github-usage-report.git"
   },
   "license": "MIT",
   "devDependencies": {
