@@ -2,9 +2,13 @@ import { UsageReport, UsageReportLine, ModelUsageReport, ModelUsageReportLine } 
 
 const readGithubUsageReportLine = (line: string): UsageReportLine => {
   const csv = line.split(',').map(field => field.replace(/^"|"$/g, ''));
-  if (csv.length < 15) {
-    throw new Error(`Invalid line format: "${line}"`);
+  if (csv.length < 14 || csv.length > 15) {
+    throw new Error(`Invalid line format: expected 14 or 15 columns, got ${csv.length}`);
   }
+  
+  // Support both 14-column (new) and 15-column (legacy) formats
+  const is14Column = csv.length === 14;
+  
   return {
     date: new Date(Date.parse(csv[0])),
     product: csv[1],
@@ -18,9 +22,9 @@ const readGithubUsageReportLine = (line: string): UsageReportLine => {
     username: csv[9],
     organization: csv[10],
     repositoryName: csv[11],
-    workflowName: csv[12],
-    workflowPath: csv[13],
-    costCenterName: csv[14],
+    workflowName: is14Column ? undefined : csv[12],
+    workflowPath: is14Column ? csv[12] : csv[13],
+    costCenterName: is14Column ? csv[13] : csv[14],
   };
 }
 
@@ -31,8 +35,13 @@ const readGithubUsageReport = async (data: string): Promise<UsageReport> => {
     const lines = data.split(/\r?\n/);
     lines.forEach((line, index) => {
       if (index == 0 || line.length < 1) return;
-      const data = readGithubUsageReportLine(line);
-      usageReportLines.push(data);
+      try {
+        const data = readGithubUsageReportLine(line);
+        usageReportLines.push(data);
+      } catch (err) {
+        // Skip lines that don't match expected format (e.g., rows with commas in quoted values)
+        console.warn(`Skipping line ${index + 1}: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      }
     });
 
     const startDate = usageReportLines[0].date;

@@ -18,7 +18,7 @@ interface UsageReportLine {
   username: string;
   organization: string;
   repositoryName: string;
-  workflowName: string;
+  workflowName?: string;
   workflowPath: string;
   costCenterName: string;
 }

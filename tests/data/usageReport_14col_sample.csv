@@ -1,0 +1,5 @@
+"date","product","sku","quantity","unit_type","applied_cost_per_quantity","gross_amount","discount_amount","net_amount","username","organization","repository","workflow_path","cost_center_name"
+"2025-11-01","actions","actions_custom_image_storage","44850","gigabyte-hours","9.4086E-05","4.219757100000001","4.219757100000001","0","","octodemo","","",""
+"2025-11-01","actions","actions_linux","9","minutes","0.008","0.07200000000000001","0.07200000000000001","0","","octodemo","octocat_supply-scaling-journey","required/1067758332/.github/workflows/dependency-review.yml",""
+"2025-11-01","actions","actions_linux","1","minutes","0.008","0.008","0.008","0","ctcampbell","od-ctcampbell","testing-ts-autofix",".github/workflows/stale.yml",""
+"2025-11-01","actions","actions_linux","13","minutes","0.008","0.10400000000000001","0.10400000000000001","0","s-samadi","octodemo","mona-gallery-iag",".github/workflows/codeql.yml","test_cc"

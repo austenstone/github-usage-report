@@ -24,10 +24,15 @@ export const readGithubUsageReportFile = async (fileName: string, newLine?: (lin
         return;
       }
       if (line.length < 1) return;
-      const data = readGithubUsageReportLine(line);
-      usageReportLines.push(data);
-      if (newLine) {
-        newLine(data);
+      try {
+        const data = readGithubUsageReportLine(line);
+        usageReportLines.push(data);
+        if (newLine) {
+          newLine(data);
+        }
+      } catch (err) {
+        rl.close();
+        reject(err);
       }
     });
 
